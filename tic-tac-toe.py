@@ -1,6 +1,7 @@
 # TicTacToe game built in Python by Aniket Kotal
 
 import random
+from time import sleep
 
 
 def display_board(board):
@@ -63,7 +64,10 @@ def board_if_filled(board):
 def playerchoice(board):
     position = 0
     while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, position):
-        position = int(input("Please enter where to place your marker: "))
+        try:
+            position = int(input("Please enter where to place your marker(1-9): "))
+        except ValueError:
+            print("Invalid input!")
     return position
 
 
@@ -143,4 +147,9 @@ while True:
                 else:
                     turn = "Player 1"
     if not playagain():
+        print(" ")
+        print("-----------------------")
+        print("Thanks for using this app! Hit me up on Discord: mightykiller#9119")
+        print("-----------------------")
+        sleep(4)
         break
