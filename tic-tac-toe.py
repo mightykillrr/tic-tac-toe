@@ -6,6 +6,7 @@ from time import sleep
 
 def display_board(board):
     print("\n"*100)
+    print("Current Board: ")
     print("             ")
     print("  " + board[7] + " | " + board[8] + " | " + board[9] + "  ")
     print(" ---+---+--- ")
@@ -61,14 +62,22 @@ def board_if_filled(board):
     return True
 
 
-def playerchoice(board):
+def playerchoice(board, turn, marker):
     position = 0
-    while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, position):
-        try:
-            position = int(input("Please enter where to place your marker(1-9): "))
-        except ValueError:
-            print("Invalid input!")
-    return position
+    if turn == "Player 1":
+        while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, position):
+            try:
+                position = int(input(f"Player 1({marker}), Please enter where to place your marker(1-9): "))
+            except ValueError:
+                print("Invalid input!")
+        return position
+    elif turn == "Player 2":
+        while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, position):
+            try:
+                position = int(input(f"Player 2({marker}), Please enter where to place your marker(1-9): "))
+            except ValueError:
+                print("Invalid input!")
+        return position
 
 
 def playagain():
@@ -109,47 +118,51 @@ while True:
         if turn == 'Player 1':
             display_board(mainboard)
             print('The places are filled with the number input from 1-9 in the following manner:')
-            print(" ")
             number_view()
-            print(" ")
-            position = playerchoice(mainboard)
+            position = playerchoice(mainboard, turn, p1_marker)
             player_input(mainboard, p1_marker, position)
 
             if win_check(mainboard, p1_marker):
                 display_board(mainboard)
-                print("Player 1 wins!")
+                print("+------------------+")
+                print("|Player 1 has won! |")
+                print("+------------------+")
                 gameplay = False
             else:
                 if board_if_filled(mainboard):
                     display_board(mainboard)
-                    print("It's a tie!")
+                    print("+------------------+")
+                    print("|It's a Tie!       |")
+                    print("+------------------+")
                     break
                 else:
                     turn = "Player 2"
         if turn == 'Player 2':
             display_board(mainboard)
             print('The places are filled with the number input from 1-9 in the following manner:')
-            print(" ")
             number_view()
-            print(" ")
-            position = playerchoice(mainboard)
+            position = playerchoice(mainboard, turn, p2_marker)
             player_input(mainboard, p2_marker, position)
 
             if win_check(mainboard, p2_marker):
                 display_board(mainboard)
-                print("Player 2 wins!")
+                print("+------------------+")
+                print("|Player 2 has won! |")
+                print("+------------------+")
                 gameplay = False
             else:
                 if board_if_filled(mainboard):
                     display_board(mainboard)
-                    print("It's a tie!")
+                    print("+------------------+")
+                    print("|It's a Tie!       |")
+                    print("+------------------+")
                     break
                 else:
                     turn = "Player 1"
     if not playagain():
         print(" ")
-        print("-----------------------")
-        print("Thanks for using this app! Hit me up on Discord: mightykiller#9119")
-        print("-----------------------")
+        print("+-------------------------------------------------------------------+")
+        print("|Thanks for using this app! Hit me up on Discord: mightykiller#9119 |")
+        print("+-------------------------------------------------------------------+")
         sleep(4)
         break
