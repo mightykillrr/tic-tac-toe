@@ -7,13 +7,11 @@ from time import sleep
 def display_board(board):
     print("\n"*100)
     print("Current Board: ")
-    print("             ")
     print("  " + board[7] + " | " + board[8] + " | " + board[9] + "  ")
     print(" ---+---+--- ")
     print("  " + board[4] + " | " + board[5] + " | " + board[6] + "  ")
     print(" ---+---+--- ")
     print("  " + board[1] + " | " + board[2] + " | " + board[3] + "  ")
-    print("             ")
 
 
 def choose_marker():
@@ -21,11 +19,12 @@ def choose_marker():
 
     while marker != 'X' and marker != 'O':
         marker = input("Player 1, Please choose X or O: ").upper()
-
-    if marker == 'X':
-        return 'X', 'O'
-    else:
-        return 'O', 'X'
+        if marker == 'X':
+            return 'X', 'O'
+        elif marker == 'O':
+            return 'O', 'X'
+        else:
+            print("Either 'X' or 'O', Dummy!")
 
 
 def player_input(board, marker, pos):
@@ -62,62 +61,76 @@ def board_if_filled(board):
     return True
 
 
-def playerchoice(board, turn, marker):
-    position = 0
-    if turn == "Player 1":
-        while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, position):
+def playerchoice(board, chance, marker):
+    pos = 0
+    if chance == "Player 1":
+        while pos not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, pos):
             try:
-                position = int(input(f"Player 1({marker}), Please enter where to place your marker(1-9): "))
+                print(" ")
+                pos = int(input(f"Player 1({marker}), Please enter where to place your marker(1-9): "))
             except ValueError:
                 print("Invalid input!")
-        return position
-    elif turn == "Player 2":
-        while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, position):
+        return pos
+    elif chance == "Player 2":
+        while pos not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not emptyspace_check(board, pos):
             try:
-                position = int(input(f"Player 2({marker}), Please enter where to place your marker(1-9): "))
+                print(" ")
+                pos = int(input(f"Player 2({marker}), Please enter where to place your marker(1-9): "))
             except ValueError:
                 print("Invalid input!")
-        return position
+        return pos
 
 
 def playagain():
-    response = input("Do you want to play again? ").upper()
-    if response in ['YES', "Y"]:
-        return True
+    response = ""
+    while response not in ['YES', "Y", 'NO', 'N']:
+        response = input("Do you want to play again? ").upper()
+        if response in ['YES', "Y"]:
+            print("Yay! Let's get the game set up for you shall we!")
+            return True
+        elif response in ['NO', 'N']:
+            print("Awe ;(")
+            return False
+        else:
+            print("Yes or No?")
+            response = " "
 
 
 def number_view():
-    print("             ")
     print("  7 | 8 | 9  ")
     print(" ---+---+--- ")
     print("  4 | 5 | 6  ")
     print(" ---+---+--- ")
     print("  1 | 2 | 3  ")
-    print("             ")
 
 
 # main code
 print(" ")
 print("Welcome to my TicTacToe game!")
-print(" ")
 while True:
-    mainboard = [' '] * 10
+    mainboard = [" "] * 10
     p1_marker, p2_marker = choose_marker()
     turn = first_move()
+    print("Please wait while we selecting who goes first.")
+    sleep(.5)
     print(turn + " goes first!")
 
-    game = ''
-    while game not in ['YES', 'Y'] and game not in ['NO', 'N']:
+    game = ""
+    gameplay = ""
+    while game not in ['YES', 'Y'] and game not in ["NO", "N"]:
+        print(" ")
         game = input("Are you ready to begin? ").upper()
-        if game in ['YES', 'Y']:
+        if game in ["YES", "Y"]:
             gameplay = True
-        else:
+        elif game in ["NO", "N"]:
             gameplay = False
+        else:
+            print("Yes or No?")
 
     while gameplay:
-        if turn == 'Player 1':
+        if turn == "Player 1":
             display_board(mainboard)
-            print('The places are filled with the number input from 1-9 in the following manner:')
+            print("The places are filled with the number input from 1-9 in the following manner:")
             number_view()
             position = playerchoice(mainboard, turn, p1_marker)
             player_input(mainboard, p1_marker, position)
@@ -127,6 +140,7 @@ while True:
                 print("+------------------+")
                 print("|Player 1 has won! |")
                 print("+------------------+")
+                sleep(3)
                 gameplay = False
             else:
                 if board_if_filled(mainboard):
@@ -134,12 +148,13 @@ while True:
                     print("+------------------+")
                     print("|It's a Tie!       |")
                     print("+------------------+")
+                    sleep(3)
                     break
                 else:
                     turn = "Player 2"
-        if turn == 'Player 2':
+        if turn == "Player 2":
             display_board(mainboard)
-            print('The places are filled with the number input from 1-9 in the following manner:')
+            print("The places are filled with the number input from 1-9 in the following manner:")
             number_view()
             position = playerchoice(mainboard, turn, p2_marker)
             player_input(mainboard, p2_marker, position)
@@ -149,6 +164,7 @@ while True:
                 print("+------------------+")
                 print("|Player 2 has won! |")
                 print("+------------------+")
+                sleep(3)
                 gameplay = False
             else:
                 if board_if_filled(mainboard):
@@ -156,6 +172,7 @@ while True:
                     print("+------------------+")
                     print("|It's a Tie!       |")
                     print("+------------------+")
+                    sleep(3)
                     break
                 else:
                     turn = "Player 1"
