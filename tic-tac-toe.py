@@ -179,7 +179,7 @@ while True:
     if not playagain():
         print(" ")
         print("+-------------------------------------------------------------------+")
-        print("|Thanks for using this app! Hit me up on Discord: mightykiller#9119 |")
+        print("|Thanks for using this app! |")
         print("+-------------------------------------------------------------------+")
         sleep(4)
         break
